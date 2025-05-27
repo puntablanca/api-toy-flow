@@ -10,4 +10,4 @@ def public():
 @app.get("/")
 def protected():
     # Authentication will be added later
-    return {"message": f"hello world Secret = {env.get('MY_VARIABLE', 'not set')}"} 
+    return {"message": f"hello this is = {env.get('MY_VARIABLE', 'not set')} environment"} 

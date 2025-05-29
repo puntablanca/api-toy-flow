@@ -4,23 +4,8 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
-# Copy requirements and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY . /app 
 
-# Copy the rest of the application
-COPY . .
+RUN pip install -r requirements.txt
 
-# Accept build arguments and set environment variables
-ARG PROJECT_ID
-ARG REGION
-ARG SERVICE_NAME
-ENV PROJECT_ID=${PROJECT_ID}
-ENV REGION=${REGION}
-ENV SERVICE_NAME=${SERVICE_NAME}
-
-# Expose port
-EXPOSE 8000
-
-# Default command to run the FastAPI app with uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"] 
+CMD uvicorn main:app --port=8000--host 0.0.0.0

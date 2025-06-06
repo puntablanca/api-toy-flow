@@ -1,86 +1,144 @@
-# FastAPI Docker Template
+# FastAPI Docker Setup Guide
 
-This repository serves as a template for building a FastAPI application and containerizing it with Docker.  It provides a basic structure to get you started quickly.
-
-## Getting Started
-
-1.  **Clone the repository:**
-
-    ```bash
-    git clone <your-repository-url>
-    cd <your-repository-directory>
-    ```
-
-2.  **Create a virtual environment:**
-
-    ```bash
-    python3 -m venv venv
-    ```
-
-3.  **Activate the virtual environment:**
-
-    ```bash
-    source venv/bin/activate  # On Linux/macOS
-    venv\Scripts\activate  # On Windows
-    ```
-
-4.  **Install dependencies:**
-
-    ```bash
-    pip install -r requirements.txt  # You'll need to create this file
-    ```
-
-5.  **Create a `.env` file:**
-
-    Copy the `.env.example` (if provided) and rename it to `.env`.  Update the values with your specific configurations.  This file will store environment variables for your application.
-
-6.  **Run the application locally (for development):**
-
-    ```bash
-    #  The specific command will depend on your FastAPI setup.  
-    #  For example, if you use Uvicorn:
-    uvicorn main:app --reload  
-    ```
-
-7.  **Build the Docker image:**
-
-    ```bash
-    docker build -t my-fastapi-app .
-    ```
-
-8.  **Run the Docker container:**
-
-    ```bash
-    docker run -p 8000:8000 my-fastapi-app
-    ```
-
-    This will start the application and make it accessible on port 8000 of your host machine.
+This repository demonstrates how to set up a FastAPI application with Docker, including different environment configurations for development, staging, and production.
 
 ## Project Structure
 
-*   `app/`:  (Likely) Contains your FastAPI application code (e.g., `main.py`, `routers`, `models`).
-*   `requirements.txt`: Lists the Python packages required for your application.
-*   `Dockerfile`: Defines the steps to build your Docker image.
-*   `.env`: Stores environment variables (not committed to the repository).
-*   `.gitignore`: Specifies files and directories that Git should ignore (e.g., virtual environment, `.env` file).
+```
+.
+├── main.py              # FastAPI application entry point
+├── requirements.txt     # Python dependencies
+├── Dockerfile          # Docker configuration
+├── docker-compose.development.yaml
+├── docker-compose.staging.yaml
+├── docker-compose.production.yaml
+└── .env.*              # Environment configuration files
+```
 
-## Key Considerations
+## Prerequisites
 
-*   **FastAPI:**  This template uses FastAPI, a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
-*   **Docker:** Docker is used to package your application and its dependencies into a container, ensuring consistency across different environments.
-*   **Environment Variables:**  Use environment variables (stored in the `.env` file) to manage configuration settings (database URLs, API keys, etc.) securely.  **Never commit sensitive information directly to the repository.**
-*   **Virtual Environments:**  Always work within a virtual environment to isolate your project's dependencies.
+- Docker and Docker Compose installed on your system
+- Python 3.11 or higher (for local development)
+- Git
+
+## Quick Start
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd <repository-name>
+```
+
+2. Create environment files:
+   - `.env.development` for development
+   - `.env.staging` for staging
+   - `.env.production` for production
+
+   Each file should contain your environment variables, for example:
+   ```
+   MY_VARIABLE=your_value
+   ```
+
+## Running the Application
+
+### Development Environment
+
+```bash
+docker-compose -f docker-compose.development.yaml up --build
+```
+
+### Staging Environment
+
+```bash
+docker-compose -f docker-compose.staging.yaml up --build
+```
+
+### Production Environment
+
+```bash
+docker-compose -f docker-compose.production.yaml up --build
+```
+
+## API Endpoints
+
+- `GET /`: Protected endpoint that returns an environment variable
+- `GET /public`: Public endpoint that returns a greeting message
+
+## Docker Configuration
+
+### Dockerfile
+
+The Dockerfile uses Python 3.11 slim image and sets up the application with the following steps:
+1. Sets the working directory to `/app`
+2. Copies the application files
+3. Installs dependencies from requirements.txt
+4. Runs the FastAPI application using uvicorn
+
+### Docker Compose Files
+
+Each environment has its own docker-compose file with specific configurations:
+
+- **Development**: Includes hot-reload for development
+- **Staging**: Configured for testing environment
+- **Production**: Optimized for production deployment
+
+## Environment Variables
+
+Create the following environment files based on your needs:
+
+- `.env.development`
+- `.env.staging`
+- `.env.production`
+
+Required variables:
+- `MY_VARIABLE`: Example environment variable
+
+## Development
+
+### Local Development
+
+1. Create a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3. Run the application:
+```bash
+uvicorn main:app --reload
+```
+
+### Adding New Dependencies
+
+1. Add new packages to `requirements.txt`
+2. Rebuild the Docker container:
+```bash
+docker-compose -f docker-compose.development.yaml up --build
+```
+
+## Deployment
+
+### Production Deployment
+
+1. Ensure all environment variables are set in `.env.production`
+2. Build and run the production container:
+```bash
+docker-compose -f docker-compose.production.yaml up --build -d
+```
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
-
-1.  Fork the repository.
-2.  Create a new branch for your feature or bug fix.
-3.  Make your changes and commit them with clear, descriptive messages.
-4.  Push your branch to your fork.
-5.  Create a pull request.
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
 ## License
 
-[Specify your license here, e.g., MIT License]
+[Add your license information here]

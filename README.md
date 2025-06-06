@@ -12,7 +12,6 @@ This repository demonstrates how to set up a FastAPI application with Docker, in
 ├── docker-compose.development.yaml
 ├── docker-compose.staging.yaml
 ├── docker-compose.production.yaml
-└── .env.*              # Environment configuration files
 ```
 
 ## Prerequisites
@@ -34,9 +33,16 @@ cd <repository-name>
    - `.env.staging` for staging
    - `.env.production` for production
 
-   Each file should contain your environment variables, for example:
-   ```
-   MY_VARIABLE=your_value
+   **Example contents:**
+   ```ini
+   # .env.development
+   MY_VARIABLE=development
+
+   # .env.staging
+   MY_VARIABLE=staging
+
+   # .env.production
+   MY_VARIABLE=production
    ```
 
 ## Running the Application
@@ -141,4 +147,4 @@ docker-compose -f docker-compose.production.yaml up --build -d
 
 ## License
 
-[Add your license information here]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
